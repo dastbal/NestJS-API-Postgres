@@ -38,16 +38,16 @@ import { CategoriesService } from '../services/categories.service';
     create(@Body() payload: CreateCategoryDto) {
       return this.categoriesService.create(payload);
     }
-    @Put(':customerId')
+    @Put(':categoryId')
     update(
-      @Param('customerId', ParseIntPipe) customerId: number,
+      @Param('categoryId', ParseIntPipe) categoryId: number,
       @Body() payload: UpdateCategoryDto,
     ) {
-      return this.categoriesService.update(customerId, payload);
+      return this.categoriesService.update(categoryId, payload);
     }
-    @Delete(':customerId')
-    delete(@Param('customerId', ParseIntPipe) customerId: number) {
-      return this.categoriesService.delete(customerId);
+    @Delete(':categoryId')
+    delete(@Param('categoryId', ParseIntPipe) categoryId: number) {
+      return this.categoriesService.delete(categoryId);
     }
   }
   

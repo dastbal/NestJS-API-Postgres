@@ -6,11 +6,14 @@ import { Pizza } from './entities/pizza.entity';
 import { CategoriesController } from './controllers/categories.controller';
 import { CategoriesService } from './services/categories.service';
 import { Category } from './entities/category.entity';
+import { IngredientsService } from './services/ingredients.service';
+import { IngredientsController } from './controllers/ingredients.controller';
+import { Ingredient } from './entities/ingredient.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Pizza, Category])],
-  controllers: [PizzasController, CategoriesController],
-  providers: [PizzasService, CategoriesService],
+  imports: [TypeOrmModule.forFeature([Pizza, Category, Ingredient])],
+  controllers: [PizzasController, CategoriesController, IngredientsController],
+  providers: [PizzasService, CategoriesService, IngredientsService],
   exports: [PizzasService],
 })
 export class PizzasModule {}

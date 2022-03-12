@@ -2,11 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Category } from './category.entity';
+import { Ingredient } from './ingredient.entity';
 
 @Entity()
 export class Pizza {
@@ -36,4 +39,8 @@ export class Pizza {
 
   @ManyToOne(() => Category, (category) => category.pizzas)
   category: Category;
+
+  @ManyToMany(() => Ingredient, (ingredient) => ingredient.pizzas)
+  @JoinTable()
+  ingredients: Ingredient[];
 }

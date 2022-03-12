@@ -4,23 +4,19 @@ import { CreatePizzaDto, UpdatePizzaDto } from 'src/pizzas/dtos/pizzas.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoriesService } from './categories.service';
+import { Ingredient } from '../entities/ingredient.entity';
+import { Category } from '../entities/category.entity';
+import { number } from 'joi';
 
 @Injectable()
 export class PizzasService {
   constructor(
     @InjectRepository(Pizza) private pizzaRepo: Repository<Pizza>,
-    private categoryService: CategoriesService,
+    @InjectRepository(Category) private categoryRepo: Repository<Category>,
+    @InjectRepository(Ingredient)
+    private ingredientRepo: Repository<Ingredient>,
+    private categoryService: CategoriesService, // private ingredientsService: IngredientsService,
   ) {}
-  // private counterPizzaId: number = 1;
-  // private pizzas: Pizza[] = [
-  //   {
-  //     id: 1,
-  //     name: 'Jamon',
-  //     description: 'Delicous pizza',
-  //     price: 10,
-  //     image: ['https://picsum.photos/200/300', 'https://picsum.photos/200/300'],
-  //   },
-  // ];
 
   findAll() {
     return this.pizzaRepo.find({
@@ -28,7 +24,9 @@ export class PizzasService {
     });
   }
   async findOne(id: number) {
-    const pizza = await this.pizzaRepo.findOne(id);
+    const pizza = await this.pizzaRepo.findOne(id, {
+      relations: ['category', 'ingredients'],
+    });
     if (!pizza) {
       throw new NotFoundException(`Pizza ${id} not Found`);
     }
@@ -38,16 +36,54 @@ export class PizzasService {
   async create(payload: CreatePizzaDto) {
     const newPizza = this.pizzaRepo.create(payload);
     if (payload.categoryId) {
-      const category = await this.categoryService.findOne(payload.categoryId);
+      const category = await this.categoryRepo.findOne(payload.categoryId);
       newPizza.category = category;
+    }
+    // if (payload.ingredientsId) {
+    //   payload.ingredientsId.forEach(async (ingredientId) => {
+    //     const ingredient = await this.ingredientsService.findOne(ingredientId);
+    //     newPizza.ingredients.push(ingredient);
+    //   });
+    // }
+    if (payload.ingredientsId) {
+      const ingredients = await this.ingredientRepo.findByIds(
+        payload.ingredientsId,
+      );
+      newPizza.ingredients = ingredients;
     }
 
     return this.pizzaRepo.save(newPizza);
   }
   async update(id: number, changes: UpdatePizzaDto) {
     const pizza = await this.pizzaRepo.findOne(id);
-    this.pizzaRepo.merge(pizza, changes);
+    if (changes.categoryId) {
+      pizza.category = await this.categoryRepo.findOne(changes.categoryId);
+    }
+    if (changes.ingredientsId) {
+      pizza.ingredients = await this.ingredientRepo.findByIds(
+        changes.ingredientsId,
+      );
+    }
 
+    this.pizzaRepo.merge(pizza, changes);
+    return this.pizzaRepo.save(pizza);
+  }
+
+  async removeIngredientFromPizza(ingredientId: number, pizzaId: number) {
+    const pizza = await this.pizzaRepo.findOne(pizzaId, {
+      relations: ['ingredients'],
+    });
+    pizza.ingredients = pizza.ingredients.filter(
+      (ingredient) => ingredient.id !== ingredientId,
+    );
+    return this.pizzaRepo.save(pizza);
+  }
+  async AddIngredientToPizza(ingredientId: number, pizzaId: number) {
+    const pizza = await this.pizzaRepo.findOne(pizzaId, {
+      relations: ['ingredients'],
+    });
+    const ingredient = await this.ingredientRepo.findOne(ingredientId);
+    pizza.ingredients.push(ingredient);
     return this.pizzaRepo.save(pizza);
   }
   delete(id: number) {
