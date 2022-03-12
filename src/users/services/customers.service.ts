@@ -4,25 +4,19 @@ import {
   CreateCustomerDto,
   UpdateCustomerDto,
 } from 'src/users/dtos/customers.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CustomersService {
-  private counterCustomerId: number = 1;
-  private customers: Customer[] = [
-    {
-      id: 1,
-      firstName: 'Super',
-      lastName: 'Balladares',
-      email: 'david@gmail.com',
-      password: 'Delicouspizza',
-    },
-  ];
+  constructor(    @InjectRepository(Customer) private customerRepo: Repository<Customer>,
+  ){}  
 
   findAll() {
-    return this.customers;
+    return this.customerRepo.find();
   }
-  findOne(id: number) {
-    const customer: Customer = this.customers.find((item) => item.id === id);
+  async findOne(id: number) {
+    const customer: Customer =  await this.customerRepo.findOne(id);
     if (!customer) {
       throw new NotFoundException(`Customer ${id} not Found`);
     }
@@ -30,32 +24,18 @@ export class CustomersService {
   }
 
   create(payload: CreateCustomerDto) {
-    this.counterCustomerId++;
-    const newCustomer: Customer = {
-      id: this.counterCustomerId,
-      ...payload,
-    };
-    this.customers.push(newCustomer);
-    return newCustomer;
+    const newCustomer = this.customerRepo.create(payload);
+
+    return this.customerRepo.save(newCustomer);
   }
-  update(id: number, payload: UpdateCustomerDto) {
-    const customer: Customer = this.findOne(id);
-    const index: number = this.customers.findIndex(
-      (customer) => customer.id === id,
-    );
-    this.customers[index] = {
-      ...customer,
-      ...payload,
-    };
-    return this.customers[index];
+  async update(id: number, changes: UpdateCustomerDto) {
+    const customer =  await this.customerRepo.findOne(id);
+    this.customerRepo.merge(customer,changes);
+    return this.customerRepo.save(customer)
   }
   delete(id: number) {
-    const customer: Customer = this.customers.find((item) => item.id === id);
-    if (!customer) {
-      throw new NotFoundException(`Customer ${id} not Found`);
-    }
-    this.customers = this.customers.filter((customer) => customer.id != id);
-
-    return this.customers;
-  }
+    return this.customerRepo.delete(id);
+  
 }
+}
+

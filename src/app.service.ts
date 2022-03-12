@@ -1,18 +1,28 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { Client } from 'pg';
 import config from './config';
 
 @Injectable()
 export class AppService {
-  // constructor(private configService: ConfigService) { }
-  // getHello(): string {
-  //   return `${this.configService.get<string>('DATABASE_NAME')}`;
-  // };
+
   constructor(
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
-  ) { }
-  getHello(): string {
-    return `Hello ->
-    ${this.configService.database.name}`;
+    @Inject('PG') private pg: Client,
+  ) {}
+  getHello() {
+    return `Hello ->`;
+  }
+  task() {
+    return 'my tasks'
+  //   return new Promise((resolve, reject) => {
+  //     this.pg.query('SELECT * FROM tasks', (e, r) => {
+  //       if(e){
+
+  //         reject(e);
+  //       }
+  //       resolve(r.rows);
+  //     });
+  //   });
   }
 }

@@ -23,12 +23,12 @@ import { ApiTags } from '@nestjs/swagger';
 export class CustomersController {
   constructor(private customerService: CustomersService) {}
   @Get(':customerId')
-  getPizza(@Param('customerId', ParseIntPipe) customerId: number) {
+  getCustomer(@Param('customerId', ParseIntPipe) customerId: number) {
     return this.customerService.findOne(customerId);
   }
 
   @Get()
-  getPizzas(
+  getCustomers(
     @Query('limit') limit: number = 10,
     @Query('offset') offset: number = 0,
   ) {

@@ -8,4 +8,8 @@ export class AppController {
   home() {
     return this.appService.getHello();
   }
+  @Get('/tasks')
+  task() {
+    return this.appService.task();
+  }
 }

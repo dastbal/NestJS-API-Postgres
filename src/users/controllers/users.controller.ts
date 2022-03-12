@@ -20,16 +20,16 @@ import { ApiTags } from '@nestjs/swagger';
 export class UsersController {
   constructor(private userService: UsersService) {}
   @Get(':userId')
-  getPizza(@Param('userId', ParseIntPipe) userId: number) {
+  getUser(@Param('userId', ParseIntPipe) userId: number) {
     return this.userService.findOne(userId);
   }
-  @Get(':userId/orders')
-  getOrders(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.getOrderByUser(userId);
-  }
+  // @Get(':userId/orders')
+  // getOrders(@Param('userId', ParseIntPipe) userId: number) {
+  //   return this.userService.getOrderByUser(userId);
+  // }
 
   @Get()
-  getPizzas(
+  getUsers(
     @Query('limit') limit: number = 10,
     @Query('offset') offset: number = 0,
   ) {

@@ -2,35 +2,33 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Customer } from './customer.entity';
+import { Pizza } from './pizza.entity';
 
 @Entity()
-export class User {
+export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 255, unique: true })
-  email: string;
-  @Column({ type: 'varchar', length: 255 })
-  password: string;
-  @Column({ type: 'varchar', length: 255 })
-  role: string;
+  name: string;
+
+  
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createAt: Date;
+
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   updateAt: Date;
-  @OneToOne(() => Customer, (customer) => customer.user, { nullable: true })
-  @JoinColumn() // esta maneja la referencia solo un lado debe tener el decorador
-  customer: Customer;
+
+  @OneToMany(() => Pizza, (pizza) => pizza.category)
+  pizzas: Pizza[];
 }
