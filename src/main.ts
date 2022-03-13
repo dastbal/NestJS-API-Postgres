@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
@@ -9,9 +9,14 @@ async function bootstrap() {
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true, // discard data that is not define in dtos
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   ); // to activate the validator inthe dtos
 
+  // serialization
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   const config = new DocumentBuilder()
     .setTitle('API')
     .setDescription('Pizza Store')

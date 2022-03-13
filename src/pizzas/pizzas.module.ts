@@ -14,6 +14,6 @@ import { Ingredient } from './entities/ingredient.entity';
   imports: [TypeOrmModule.forFeature([Pizza, Category, Ingredient])],
   controllers: [PizzasController, CategoriesController, IngredientsController],
   providers: [PizzasService, CategoriesService, IngredientsService],
-  exports: [PizzasService],
+  exports: [PizzasService, TypeOrmModule],
 })
 export class PizzasModule {}

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Pizza } from './pizza.entity';
 
-@Entity()
+@Entity({name:'ingredients'})
 export class Ingredient {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,12 +17,13 @@ export class Ingredient {
   name: string;
 
   @CreateDateColumn({
+    name: 'create_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createAt: Date;
-
   @UpdateDateColumn({
+    name: 'update_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })

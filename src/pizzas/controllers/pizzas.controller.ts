@@ -12,7 +12,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { PizzasService } from 'src/pizzas/services/pizzas.service';
-import { CreatePizzaDto, UpdatePizzaDto } from 'src/pizzas/dtos/pizzas.dto';
+import { CreatePizzaDto, FilterPizzaDto, UpdatePizzaDto } from 'src/pizzas/dtos/pizzas.dto';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 
 @ApiTags('Pizzas')
@@ -26,12 +26,8 @@ export class PizzasController {
   }
 
   @Get()
-  getPizzas(
-    @Query('limit') limit: number = 10,
-    @Query('offset') offset: number = 0,
-    @Query('brand') brand: string,
-  ) {
-    return this.pizzasService.findAll();
+  getPizzas(@Query() params?: FilterPizzaDto) {
+    return this.pizzasService.findAll(params);
   }
 
   @Post()

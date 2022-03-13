@@ -1,8 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Pizza } from '../entities/pizza.entity';
-import { CreatePizzaDto, UpdatePizzaDto } from 'src/pizzas/dtos/pizzas.dto';
+import {
+  CreatePizzaDto,
+  FilterPizzaDto,
+  UpdatePizzaDto,
+} from 'src/pizzas/dtos/pizzas.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, FindCondition, FindConditions, Repository } from 'typeorm';
 import { CategoriesService } from './categories.service';
 import { Ingredient } from '../entities/ingredient.entity';
 import { Category } from '../entities/category.entity';
@@ -18,7 +22,31 @@ export class PizzasService {
     private categoryService: CategoriesService, // private ingredientsService: IngredientsService,
   ) {}
 
-  findAll() {
+  findAll(params?: FilterPizzaDto) {
+    const { limit, offset, category, maxPrice, minPrice } = params;
+    const where: FindConditions<Pizza> = {};
+    if (params) {
+      if (category) {
+        return this.pizzaRepo.find({
+          relations: ['category'],
+          take: limit,
+          skip: offset,
+          where: {
+            category,
+          },
+        });
+      }
+      if (minPrice && maxPrice) {
+        where.price = Between(minPrice, maxPrice);
+      }
+      return this.pizzaRepo.find({
+        relations: ['category'],
+        take: limit,
+        skip: offset,
+        where,
+      });
+    }
+
     return this.pizzaRepo.find({
       relations: ['category'],
     });

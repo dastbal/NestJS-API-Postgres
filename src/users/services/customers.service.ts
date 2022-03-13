@@ -9,14 +9,15 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class CustomersService {
-  constructor(    @InjectRepository(Customer) private customerRepo: Repository<Customer>,
-  ){}  
+  constructor(
+    @InjectRepository(Customer) private customerRepo: Repository<Customer>,
+  ) {}
 
   findAll() {
     return this.customerRepo.find();
   }
   async findOne(id: number) {
-    const customer: Customer =  await this.customerRepo.findOne(id);
+    const customer: Customer = await this.customerRepo.findOne(id);
     if (!customer) {
       throw new NotFoundException(`Customer ${id} not Found`);
     }
@@ -29,13 +30,11 @@ export class CustomersService {
     return this.customerRepo.save(newCustomer);
   }
   async update(id: number, changes: UpdateCustomerDto) {
-    const customer =  await this.customerRepo.findOne(id);
-    this.customerRepo.merge(customer,changes);
-    return this.customerRepo.save(customer)
+    const customer = await this.customerRepo.findOne(id);
+    this.customerRepo.merge(customer, changes);
+    return this.customerRepo.save(customer);
   }
   delete(id: number) {
     return this.customerRepo.delete(id);
-  
+  }
 }
-}
-
