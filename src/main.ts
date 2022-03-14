@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -14,6 +15,7 @@ async function bootstrap() {
       },
     }),
   ); // to activate the validator inthe dtos
+  app.enableCors();
 
   // serialization
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
