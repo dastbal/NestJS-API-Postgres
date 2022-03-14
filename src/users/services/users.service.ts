@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
-import { Order } from '../entities/order.entity';
 
+import * as bcrypt from 'bcrypt';
 import { PizzasService } from 'src/pizzas/services/pizzas.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -31,6 +31,8 @@ export class UsersService {
 
   async create(payload: CreateUserDto) {
     const newUser = this.userRepo.create(payload);
+    const hashPassword = await bcrypt.hash(payload.password, 12);
+    newUser.password = hashPassword;
     if (payload.customerId) {
       const customer = await this.customersService.findOne(payload.customerId);
       newUser.customer = customer;
@@ -38,9 +40,16 @@ export class UsersService {
 
     return this.userRepo.save(newUser);
   }
+
+  async findByEmail(email: string) {
+    const user = await this.userRepo.findOne({ where: { email } });
+    return user;
+  }
   async update(id: number, changes: UpdateUserDto) {
     const user = await this.userRepo.findOne(id);
-    this.userRepo.merge(user, changes);
+    const password = await bcrypt.hash(changes.password, 12);
+    const newChanges = { ...changes, password };
+    this.userRepo.merge(user, newChanges);
     return this.userRepo.save(user);
   }
   delete(id: number) {
