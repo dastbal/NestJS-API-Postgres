@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Pizza } from './pizza.entity';
 
-@Entity({name:'categories'})
+@Entity({ name: 'categories' })
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
@@ -16,7 +16,6 @@ export class Category {
   @Column({ type: 'varchar', length: 255, unique: true })
   name: string;
 
-  
   @CreateDateColumn({
     name: 'create_at',
     type: 'timestamptz',
