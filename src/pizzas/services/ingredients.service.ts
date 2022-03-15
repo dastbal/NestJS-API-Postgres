@@ -1,12 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Pizza } from '../entities/pizza.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Ingredient } from 'src/database/entities/pizzas/ingredient.entity';
 import { Repository } from 'typeorm';
 import {
   CreateIngredientDto,
   UpdateIngredientDto,
 } from '../dtos/ingredient.dtos';
-import { Ingredient } from '../entities/ingredient.entity';
 
 @Injectable()
 export class IngredientsService {

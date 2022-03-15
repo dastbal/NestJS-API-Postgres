@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Pizza } from '../entities/pizza.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Category } from '../entities/category.entity';
+import { Category } from '../../database/entities/pizzas/category.entity';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dtos';
 
 @Injectable()

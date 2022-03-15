@@ -10,7 +10,6 @@ import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { PayloadToken } from '../models/token.model';
 import { Role } from '../models/roles.model';
-import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

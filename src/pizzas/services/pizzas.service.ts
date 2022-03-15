@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Pizza } from '../entities/pizza.entity';
 import {
   CreatePizzaDto,
   FilterPizzaDto,
@@ -8,9 +7,10 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between, FindCondition, FindConditions, Repository } from 'typeorm';
 import { CategoriesService } from './categories.service';
-import { Ingredient } from '../entities/ingredient.entity';
-import { Category } from '../entities/category.entity';
 import { number } from 'joi';
+import { Category } from 'src/database/entities/pizzas/category.entity';
+import { Pizza } from 'src/database/entities/pizzas/pizza.entity';
+import { Ingredient } from 'src/database/entities/pizzas/ingredient.entity';
 
 @Injectable()
 export class PizzasService {

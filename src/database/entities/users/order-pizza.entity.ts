@@ -1,5 +1,4 @@
 import { Exclude } from 'class-transformer';
-import { Pizza } from 'src/pizzas/entities/pizza.entity';
 import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,6 +8,7 @@ import {
   Column,
 
 } from 'typeorm';
+import { Pizza } from '../pizzas/pizza.entity';
 import { Customer } from './customer.entity';
 import { Order } from './order.entity';
 

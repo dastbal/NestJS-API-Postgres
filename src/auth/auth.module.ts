@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import config from 'src/config';
 import { ConfigType } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { DatabaseModule } from 'src/database/database.module';
 
 
 @Module({

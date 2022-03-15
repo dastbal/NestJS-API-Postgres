@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
-import { User } from '../entities/user.entity';
+import { User } from '../../database/entities/users/user.entity';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/users.dto';
 
 import * as bcrypt from 'bcrypt';
-import { PizzasService } from 'src/pizzas/services/pizzas.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CustomersService } from './customers.service';
@@ -12,7 +11,6 @@ import { CustomersService } from './customers.service';
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
-    private pizzaService: PizzasService,
     private customersService: CustomersService,
   ) {}
 

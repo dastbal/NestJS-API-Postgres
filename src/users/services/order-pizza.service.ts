@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Pizza } from 'src/pizzas/entities/pizza.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderPizzaDto } from '../dtos/order-pizza.dtos';
-import { OrderPizza } from '../entities/order-pizza.entity';
-import { Order } from '../entities/order.entity';
+import { OrderPizza } from '../../database/entities/users/order-pizza.entity';
+import { Order } from '../../database/entities/users/order.entity';
+import { Pizza } from 'src/database/entities/pizzas/pizza.entity';
 
 @Injectable()
 export class OrderPizzaService {

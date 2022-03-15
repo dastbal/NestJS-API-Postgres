@@ -4,13 +4,13 @@ import { Client } from 'pg';
 import { ConfigType } from '@nestjs/config';
 import config from '../config';
 import { TypeOrmModule } from '@nestjs/typeorm'; // 👈 import
-import { Pizza } from 'src/pizzas/entities/pizza.entity';
-import { Ingredient } from 'src/pizzas/entities/ingredient.entity';
-import { Category } from 'src/pizzas/entities/category.entity';
-import { Customer } from 'src/users/entities/customer.entity';
-import { OrderPizza } from 'src/users/entities/order-pizza.entity';
-import { Order } from 'src/users/entities/order.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Category } from 'src/database/entities/pizzas/category.entity';
+import { Customer } from 'src/database/entities/users/customer.entity';
+import { OrderPizza } from 'src/database/entities/users/order-pizza.entity';
+import { Order } from 'src/database/entities/users/order.entity';
+import { User } from 'src/database/entities/users/user.entity';
+import { Ingredient } from './entities/pizzas/ingredient.entity';
+import { Pizza } from './entities/pizzas/pizza.entity';
 
 
 const API_KEY = '1234';
@@ -33,9 +33,9 @@ const API_KEY_PROD = 'PROD1234';
           url: configService.postgresUrl,
           synchronize: false,
           autoLoadEntities:true,
-          ssl:{
-            rejectUnauthorized:false,
-          },
+          // ssl:{
+          //   rejectUnauthorized:false,
+          // },
         };
       },
     }),
@@ -60,9 +60,9 @@ const API_KEY_PROD = 'PROD1234';
       useFactory: (configService: ConfigType<typeof config>) => {
         const client = new Client({
           connectionString : configService.postgresUrl,
-          ssl:{
-            rejectUnauthorized:false,
-          },
+          // ssl:{
+          //   rejectUnauthorized:false,
+          // },
         });
 
         client.connect();
