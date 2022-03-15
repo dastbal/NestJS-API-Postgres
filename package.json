@@ -19,8 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrations:prd": "npm run typeorm:prod -- migration:run",
-    "typeorm:prod": "node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migrations:prod": "npm run typeorm:prod -- migration:run",
+    "typeorm:prod": "node -r ts-node/register ./node_modules/typeorm/cli.js",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migrations:generate": "npm run typeorm -- migration:generate -n",
     "migrations:run": "npm run typeorm -- migration:run",
@@ -76,9 +76,7 @@
     "supertest": "^6.1.3",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
-    "ts-node": "^10.0.0",
     "tsconfig-paths": "^3.10.1",
-    "typescript": "^4.3.5"
   },
   "jest": {
     "moduleFileExtensions": [
