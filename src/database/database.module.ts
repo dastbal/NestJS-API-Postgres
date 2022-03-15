@@ -24,6 +24,8 @@ const API_KEY_PROD = 'PROD1234';
           type: 'postgres',
           entities: ['src/**/*.entity.ts'],
           url: configService.postgresUrl,
+          synchronize: false,
+          autoLoadEntities:true,
           ssl:{
             rejectUnauthorized:false,
           },
