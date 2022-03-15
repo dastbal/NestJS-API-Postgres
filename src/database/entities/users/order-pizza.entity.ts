@@ -9,7 +9,6 @@ import {
 
 } from 'typeorm';
 import { Pizza } from '../pizzas/pizza.entity';
-import { Customer } from './customer.entity';
 import { Order } from './order.entity';
 
 @Entity()

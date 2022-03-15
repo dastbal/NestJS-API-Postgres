@@ -29,7 +29,7 @@ const API_KEY_PROD = 'PROD1234';
       useFactory: (configService: ConfigType<typeof config>) => {
         return {
           type: 'postgres',
-          // entities: ['src/**/*.entity.ts'],
+          entities: [User,Pizza,Category,Customer,OrderPizza,Order,Ingredient],
           url: configService.postgresUrl,
           synchronize: false,
           autoLoadEntities:true,
