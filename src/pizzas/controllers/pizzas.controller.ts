@@ -37,6 +37,7 @@ export class PizzasController {
     return this.pizzasService.findOne(pizzaId);
   }
 
+  
   @Public()
   @Get()
   getPizzas(@Query() params?: FilterPizzaDto) {
