@@ -40,7 +40,7 @@ export class UsersController {
   ) {
     return this.userService.findAll();
   }
-
+  @Public()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   create(@Body() payload: CreateUserDto) {
@@ -48,6 +48,7 @@ export class UsersController {
   }
 
   @Roles(Role.ADMIN)
+  @Roles(Role.CUSTOMER)
   @Put(':userId')
   update(
     @Param('userId', ParseIntPipe) userId: number,

@@ -43,6 +43,7 @@ export class CustomersController {
     return this.customerService.findAll();
   }
 
+  @Public()
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   create(@Body() payload: CreateCustomerDto) {
