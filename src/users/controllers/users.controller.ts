@@ -41,7 +41,6 @@ export class UsersController {
     return this.userService.findAll();
   }
 
-  @Roles(Role.ADMIN)
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   create(@Body() payload: CreateUserDto) {
