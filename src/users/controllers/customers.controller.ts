@@ -43,7 +43,6 @@ export class CustomersController {
     return this.customerService.findAll();
   }
 
-  @Roles(Role.ADMIN)
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   create(@Body() payload: CreateCustomerDto) {
